@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Gogate Marketplace & Logistics API
+  version: 0.1.0
+servers:
+  - url: https://api.gogateproducts.store
+paths:
+  /v1/orders:
+    post:
+      summary: Place order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      variantId: { type: string, format: uuid }
+                      qty: { type: integer }
+                paymentMode:
+                  type: string
+                  enum: [COD, ONLINE, WALLET]
+                addressId:
+                  type: string
+                  format: uuid
+      responses:
+        '201':
+          description: Order placed
+  /v1/orders/{orderId}/timeline:
+    get:
+      summary: Customer-facing order timeline
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Timeline list
+  /v1/logistics/rates:
+    post:
+      summary: Fetch courier rates from all configured partners
+      responses:
+        '200':
+          description: Rate list with ETA
+  /v1/logistics/shipments:
+    post:
+      summary: Create shipment and generate AWB/label
+      responses:
+        '201':
+          description: Shipment created
+  /v1/logistics/shipments/{shipmentId}/status:
+    post:
+      summary: Push shipment event from webhook or internal app
+      responses:
+        '202':
+          description: Event accepted
+  /v1/logistics/shipments/{shipmentId}/otp/resend:
+    post:
+      summary: Resend delivery OTP (max attempt policy enforced)
+      responses:
+        '200':
+          description: OTP resent
+  /v1/returns:
+    post:
+      summary: Create return/exchange request
+      responses:
+        '201':
+          description: Return request created
+  /v1/admin/sellers/{sellerId}/approve:
+    post:
+      summary: Approve seller after KYC/FSSAI review
+      responses:
+        '200':
+          description: Approved
+  /v1/admin/pincode-serviceability:
+    put:
+      summary: Upsert pincode serviceability matrix
+      responses:
+        '200':
+          description: Updated
