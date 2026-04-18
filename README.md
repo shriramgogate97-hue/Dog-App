@@ -1,3 +1,4 @@
+# Dog Webapp
 # Gogate Products WebApp
 
 This repository now contains a multi-app starter kit for a **Dog Rescue & Animal Incident Network** concept.
@@ -23,3 +24,7 @@ cd <path-to-this-repo>
 ```
 
 Then follow `Dog-app/docs/WINDOWS_SETUP_AND_RUN.md`.
+## Deployment
+
+- Vercel + Render deployment steps: `Dog-app/docs/DEPLOY_VERCEL_RENDER.md`.
+
